@@ -38,3 +38,7 @@ C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\
 C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\_ViewStart.g.cshtml.cs
 C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Areas\Customer\Views\_ViewImports.g.cshtml.cs
 C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Areas\Customer\Views\_ViewStart.g.cshtml.cs
+C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Category\Create.g.cshtml.cs
+C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_TableButtonPartial.g.cshtml.cs
+C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Category\Edit.g.cshtml.cs
+C:\Users\Quyen\source\repos\WebBanHang\WebBanHang\obj\Debug\netcoreapp2.1\Razor\Areas\Admin\Views\Category\Detail.g.cshtml.cs
