@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>aspnet-WebBanHang-77D9F749-1362-46EF-BB5A-16A0CEF20636</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Customer\Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>
