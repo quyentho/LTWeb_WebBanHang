@@ -1,0 +1,68 @@
+﻿@model WebBanHang.Models.Product
+@using WebBanHang.Extensions
+@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+<br />
+<h2 class="text-info">Product Details</h2>
+
+<form method="post">
+    <div class="p-4 border rounded row">
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" class="form-control" readonly />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="UnitPrice"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="UnitPrice" class="form-control" readonly />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Category"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Category.Name" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                  
+                </div>
+                <div class="col-8">
+                    <button type="submit" value="Add To Cart" asp-route-id="@Model.Id" class="btn btn-primary form-control">Add To Cart</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-1">
+
+        </div>
+        <div class="col-3">
+            <img src="@Model.Image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
+            <br /><br />
+            @if (Model.Status)
+            {
+                <img src="~/images/inStock.png" width="50%" />
+            }
+        </div>
+
+
+        <br />
+        <div class="form-group">
+            <input hidden asp-for="Id" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
