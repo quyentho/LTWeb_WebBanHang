@@ -11,7 +11,7 @@ namespace WebBanHang.Models
         public int Id { get; set; }
 
         [Display(Name = "Category Name")]
-        [required]
+        [Required]
         public string Name { get; set; }
     }
 }

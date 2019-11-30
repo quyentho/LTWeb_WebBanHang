@@ -12232,11 +12232,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Quyen\\source\\repos\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+      "projectUniqueName": "C:\\Users\\Quyen\\source\\repos\\LTWeb_WebBanHang\\WebBanHang\\WebBanHang.csproj",
       "projectName": "WebBanHang",
-      "projectPath": "C:\\Users\\Quyen\\source\\repos\\WebBanHang\\WebBanHang\\WebBanHang.csproj",
+      "projectPath": "C:\\Users\\Quyen\\source\\repos\\LTWeb_WebBanHang\\WebBanHang\\WebBanHang.csproj",
       "packagesPath": "C:\\Users\\Quyen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Quyen\\source\\repos\\WebBanHang\\WebBanHang\\obj\\",
+      "outputPath": "C:\\Users\\Quyen\\source\\repos\\LTWeb_WebBanHang\\WebBanHang\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
