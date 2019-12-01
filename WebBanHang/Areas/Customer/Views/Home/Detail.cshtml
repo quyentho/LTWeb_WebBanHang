@@ -41,7 +41,26 @@
                   
                 </div>
                 <div class="col-8">
-                    <button type="submit" value="Add To Cart" asp-route-id="@Model.Id" class="btn btn-primary form-control">Add To Cart</button>
+                    @{
+                        bool isInBag = false;
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
+                        if (lstCart != null && lstCart.Contains(Model.Id))
+                        {
+                            isInBag = true;
+                        }
+                    }
+                    @if (isInBag)
+                    {
+                        <button type="submit" class="form-control btn btn-danger" value="Remove form cart" asp-action="remove" asp-route-id="@Model.Id">Remove form cart</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="form-control btn btn-primary" value="Add to cart" asp-route-id="@Model.Id">Add to cart</button>
+                    }
+
+
+
+
                 </div>
             </div>
 

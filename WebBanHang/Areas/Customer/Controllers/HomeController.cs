@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Data;
+using WebBanHang.Extensions;
 
 namespace WebBanHang.Areas.Customer.Views.Controllers
 {
@@ -31,12 +33,33 @@ namespace WebBanHang.Areas.Customer.Views.Controllers
             return View(product);
         }
 
-        //Detail Post
-        //[HttpPost, ActionName("Detail")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DetailPost(int id)
-        //{
-        //    List<int> lstShoppingCart =
-        //}
+     //   Detail Post
+        [HttpPost, ActionName("Detail")]
+        [ValidateAntiForgeryToken]
+        public  IActionResult DetailPost(int id)
+        {
+            List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            if(lstShoppingCart == null)
+            {
+                lstShoppingCart = new List<int>();
+            }
+            lstShoppingCart.Add(id);
+            HttpContext.Session.Set("ssShoppingCart", lstShoppingCart);
+            return RedirectToAction("Index", "Home", new { area = "Customer" });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Remove(int id)
+        {
+            List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            if (lstShoppingCart.Contains(id))
+            {
+                lstShoppingCart.Remove(id);
+            }
+
+            HttpContext.Session.Set("ssShoppingCart", lstShoppingCart);
+            return RedirectToAction("Index", "Home", new { area = "Customer" });
+        }
     }
 }
