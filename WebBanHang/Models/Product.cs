@@ -12,6 +12,7 @@ namespace WebBanHang.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        [Display(Name="Price")]
         public int UnitPrice { get; set; }
         public string Unit { get; set; }
         public int Quantity { get; set; }

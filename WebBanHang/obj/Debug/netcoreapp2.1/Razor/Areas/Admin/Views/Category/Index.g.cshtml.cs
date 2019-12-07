@@ -67,7 +67,7 @@ using WebBanHang.Models;
             WriteLiteral("\r\n    <br /><br />\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-6\">\r\n            <h2 class=\"text-info\"> Category List</h2>\r\n        </div>\r\n        <div class=\"col-6 text-right\">\r\n            ");
             EndContext();
             BeginContext(294, 94, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d5329b91402f4e26aa44c408f88a3f7f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fcdf0d4e83ec4e78b0cac480091d927b", async() => {
                 BeginContext(338, 46, true);
                 WriteLiteral("<i class=\"fas fa-plus\"></i>&nbsp; New Category");
                 EndContext();
@@ -119,7 +119,7 @@ using WebBanHang.Models;
             WriteLiteral("\r\n                </td>\r\n                <td>\r\n                    ");
             EndContext();
             BeginContext(919, 54, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "84c5907390574af8aee7740fad7480e2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "782e1ef62dc2446aaeee5faef4bd7ad0", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

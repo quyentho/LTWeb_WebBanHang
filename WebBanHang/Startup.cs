@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using WebBanHang.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
+using WebBanHang.Models;
 
 namespace WebBanHang
 {
@@ -34,23 +37,39 @@ namespace WebBanHang
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                options.User.RequireUniqueEmail = false;
 
-            services.AddSession(options => {
+            })
+           .AddEntityFrameworkStores<ApplicationDbContext>()
+           .AddDefaultUI()
+           .AddDefaultTokenProviders();
+
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
             });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,7 +77,7 @@ namespace WebBanHang
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
@@ -67,6 +86,7 @@ namespace WebBanHang
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
             app.UseSession();
             app.UseMvc(routes =>
             {
@@ -75,6 +95,7 @@ namespace WebBanHang
                   template: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
                 );
             });
+       //     app.UseIdentity();
         }
     }
 }
