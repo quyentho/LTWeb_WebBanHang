@@ -13,6 +13,7 @@ namespace WebBanHang.Models
         [Display(Name ="Create At")]
         public DateTime DateCreate { get; set; }
         public double Total { get; set; }
+//        public bool IsConfirm { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }

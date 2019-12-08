@@ -46,8 +46,6 @@ namespace WebBanHang.Areas.Customer.Controllers
 
             TempData.Put("Order", userOrdered);
 
- 
-
 
             if (listShoppingCart !=null)
             {
@@ -84,8 +82,8 @@ namespace WebBanHang.Areas.Customer.Controllers
                     ProductId = prodId,
                     Product = _db.Products.FirstOrDefault(m => m.Id == prodId),
                     OrderId = order.Id,
-                    QuantityOrdered = OrderDetails.FirstOrDefault(o=>o.ProductId == prodId).QuantityOrdered
-                    
+                    QuantityOrdered = OrderDetails.FirstOrDefault(od => od.ProductId == prodId).QuantityOrdered
+
                 };
 
                 _db.OrderDetails.Add(orderDetails);
@@ -97,15 +95,15 @@ namespace WebBanHang.Areas.Customer.Controllers
 
             listShoppingCart = new List<int>();
             HttpContext.Session.Set("ssShoppingCart", listShoppingCart);
-
-            return RedirectToAction("Index");
+            TempData["total"] = total;
+            return RedirectToAction(nameof(BuyConfirmation),new { orderId=order.Id});
         }
 
-        public IActionResult BuyConfirmation()
+        public IActionResult BuyConfirmation(int orderId)
         {
             ShoppingCartViewModel shoppingCartVM = new ShoppingCartViewModel()
             {
-                OrderDetails = _db.OrderDetails.Include(m=>m.Product).ToList(),
+                OrderDetails = _db.OrderDetails.Where(o=>o.OrderId == orderId).Include(m=>m.Product).Include(m=>m.Product.Category).ToList(),
                 User = _db.ApplicationUsers.FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
             };
             return View(shoppingCartVM);
@@ -114,12 +112,15 @@ namespace WebBanHang.Areas.Customer.Controllers
         public IActionResult Remove(int id)
         {
             List<int> listShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+
             if (listShoppingCart != null)
             {
+                
                 if (listShoppingCart.Contains(id))
                 {
                     listShoppingCart.Remove(id);
                 }
+
             }
 
             HttpContext.Session.Set("ssShoppingCart", listShoppingCart);

@@ -10,9 +10,7 @@
             <div class="col-12" style="border-right:1px solid #bbb9b9;">
                 <table class="table table-striped" width="100%">
                     <tr class="table-info">
-                        <th></th>
-                        <th></th>
-                        <th></th>
+
                         <th style="text-align:center; width:20%"></th>
                         <th style="text-align:center;">
                             <label>Product Name</label>
@@ -32,15 +30,7 @@
                     @for (int i = 0; i < Model.Count; i++)
                     {
                         <tr style="padding:50px;">
-                            <td>
-                                <input type="hidden" asp-for="@Model[i].Id" />
-                            </td>
-                            <td>
-                                <input type="hidden" asp-for="@Model[i].ProductId" />
-                            </td>
-                            <td>
-                                <input type="hidden" asp-for="@Model[i].OrderId" />
-                            </td>
+
                             <td>
                                 <a asp-area="Customer" asp-controller="Home" asp-action="Details" asp-route-id="@Model[i].ProductId">
                                     <img src="@Model[i].Product.Image" width="100%" style="margin:auto; display:block; border-radius:5px; border:1px solid #bbb9b9;" />
@@ -54,20 +44,19 @@
                             </td>
 
                             <td style="text-align:center">
-                                <input type="number" min="1" style="width:80px" asp-for="@Model[i].QuantityOrdered" />
+                                @Html.DisplayFor(c => Model[i].QuantityOrdered)
                             </td>
                             <td style="text-align:center">
                                 @Html.DisplayFor(c => Model[i].Product.Category.Name)
                             </td>
-                            <td style="text-align:center">
-                                <button type="submit" class="btn btn-danger" asp-action="remove" asp-controller="ShoppingCart" asp-area="Customer" asp-route-id="@Model[i].ProductId">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
                         </tr>
                     }
-                </table>
-                <button type="submit" id="btnPlaceOrder" class="btn btn-success">Buy</button>
+                    <tr style="padding:50px;">
+                        <td></td>    
+                        <td></td>    
+                        <td style="text-align:center; color:red; font-weight:300">Total: @TempData["total"]</td>    
+                    </tr>
+                </table> 
                 <a asp-action="Index" asp-controller="Home" asp-area="Customer" class="btn btn-primary">Back To Shop</a>
             </div>
         </div>

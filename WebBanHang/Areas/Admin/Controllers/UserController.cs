@@ -73,7 +73,7 @@ namespace GraniteHouse.Areas.Admin.Controllers
                 _db.SaveChanges();
                 if (curUser.IsInRole(SD.Admin))
                     return RedirectToAction(nameof(Index));
-                return RedirectToAction("Index", "Home", new { area = "Customer" });
+                return RedirectToAction("Index","Home",new { area="Customer"});
             }
 
             return View(user);

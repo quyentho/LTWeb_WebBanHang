@@ -1,6 +1,7 @@
 ﻿@model WebBanHang.Models.ApplicationUser
-
-<h4 class="text-success">User Details &nbsp;<a href="#" class="btn btn-primary">Change Info</a></h4>  
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+<h4 class="text-success">User Details &nbsp;<a asp-area="Admin" asp-controller="User" asp-action="Edit" class="btn btn-primary" asp-route-id="@UserManager.GetUserId(User)">Change Info</a></h4>
 
 
 <div style="height:100px; background-color:aliceblue" class="container border">

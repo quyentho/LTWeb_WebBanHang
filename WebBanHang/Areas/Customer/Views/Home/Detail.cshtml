@@ -36,52 +36,53 @@
                     <input asp-for="Category.Name" class="form-control" readonly />
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-4">
-                  
-                </div>
-                <div class="col-8">
-                    @{
-                        bool isInBag = false;
-                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
-                        if (lstCart != null && lstCart.Contains(Model.Id))
-                        {
-                            isInBag = true;
+            
+                <div class="form-group row">
+                    <div class="col-4">
+
+                    </div>
+                    <div class="col-8">
+                        @{
+                            bool isInBag = false;
+                            List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
+                            if (lstCart != null && lstCart.Contains(Model.Id))
+                            {
+                                isInBag = true;
+                            }
                         }
-                    }
-                    @if (isInBag)
-                    {
-                        <button type="submit" class="form-control btn btn-danger" value="Remove form cart" asp-action="remove" asp-route-id="@Model.Id">Remove form cart</button>
-                    }
-                    else
-                    {
-                        <button type="submit" class="form-control btn btn-primary" value="Add to cart" asp-route-id="@Model.Id">Add to cart</button>
-                    }
+                        @if (isInBag)
+                        {
+                            <button type="submit" class="form-control btn btn-danger" value="Remove form cart" asp-action="remove" asp-route-id="@Model.Id">Remove form cart</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="form-control btn btn-primary" value="Add to cart" asp-route-id="@Model.Id">Add to cart</button>
+                        }
 
 
 
 
+                    </div>
                 </div>
+
+            </div>
+            <div class="col-1">
+
+            </div>
+            <div class="col-3">
+                <img src="@Model.Image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
+                <br /><br />
+                @if (Model.Status)
+                {
+                    <img src="~/images/inStock.png" width="50%" />
+                }
             </div>
 
-        </div>
-        <div class="col-1">
 
+            <br />
+            <div class="form-group">
+                <input hidden asp-for="Id" />
+                <a asp-action="Index" class="btn btn-success">Back to List</a>
+            </div>
         </div>
-        <div class="col-3">
-            <img src="@Model.Image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
-            <br /><br />
-            @if (Model.Status)
-            {
-                <img src="~/images/inStock.png" width="50%" />
-            }
-        </div>
-
-
-        <br />
-        <div class="form-group">
-            <input hidden asp-for="Id" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
-        </div>
-    </div>
 </form>
