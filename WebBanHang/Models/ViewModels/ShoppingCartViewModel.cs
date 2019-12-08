@@ -8,6 +8,6 @@ namespace WebBanHang.Models.ViewModels
     public class ShoppingCartViewModel
     {
         public List<OrderDetails> OrderDetails { get; set; }
-
+        public ApplicationUser User { get; set; }
     }
 }

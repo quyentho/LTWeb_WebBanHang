@@ -1,0 +1,19 @@
+﻿@model WebBanHang.Models.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "BuyConfirmation";
+}
+
+<br />
+<h2 class="text-info">Buy Confirmation</h2>
+<div class="form-text">
+    If you want to change your infomation, please click change info button
+</div>
+<br />
+
+<partial name="~/Views/Shared/_CustomerDetails.cshtml" model="Model.User" />
+<br />
+
+<partial name="~/Views/Shared/_OrderDetails.cshtml" model="Model.OrderDetails" />
+
+<a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="btn btn-success"> Back to Cart</a>

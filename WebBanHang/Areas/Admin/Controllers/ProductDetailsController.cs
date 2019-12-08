@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebBanHang.Data;
 using WebBanHang.Models;
@@ -9,6 +10,8 @@ using WebBanHang.Models;
 namespace WebBanHang.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class ProductDetailsController : Controller
     {
 

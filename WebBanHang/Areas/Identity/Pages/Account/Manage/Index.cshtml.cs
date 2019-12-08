@@ -5,26 +5,32 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WebBanHang.Data;
+using WebBanHang.Models;
 
 namespace WebBanHang.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        //private readonly UserStore<ApplicationUser> _store;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IEmailSender emailSender)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender
+           /* UserStore<ApplicationUser> store*/)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            //_store = store;
         }
 
         public string Username { get; set; }
@@ -40,12 +46,15 @@ namespace WebBanHang.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Display(Name = "Full Name")]
+            public string Name { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Required]
+            public string Address { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -57,18 +66,21 @@ namespace WebBanHang.Areas.Identity.Pages.Account.Manage
             }
 
             var userName = await _userManager.GetUserNameAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
+            var fullName = user.Name; 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
+            var address = user.Address;
 
             Username = userName;
 
             Input = new InputModel
             {
-                Email = email,
+                Name = fullName,
+                Address = address,
                 PhoneNumber = phoneNumber
             };
 
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+      //      IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 
             return Page();
         }
@@ -85,63 +97,73 @@ namespace WebBanHang.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var email = await _userManager.GetEmailAsync(user);
-            if (Input.Email != email)
+            var fullName = user.Name;
+            if (Input.Name != fullName)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
-                }
+                user.Name = Input.Name;
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //       var email = await _userManager.GetEmailAsync(user);
+            //if (Input.Name != name)
+            //{
+            //    var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+            //    if (!setEmailResult.Succeeded)
+            //    {
+            //        var userId = await _userManager.GetUserIdAsync(user);
+            //        throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+            //    }
+            //}
+
+            var phoneNumber = user.PhoneNumber;
             if (Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
-                }
+                user.PhoneNumber = Input.PhoneNumber;
+            }
+            var address = user.Address;
+            if (Input.Address != address )
+            {
+                user.Address = Input.Address;
             }
 
-            await _signInManager.RefreshSignInAsync(user);
+           await _userManager.UpdateAsync(user);
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            
+            store.Context.SaveChanges();
+           
+        //    await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostSendVerificationEmailAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+        //public async Task<IActionResult> OnPostSendVerificationEmailAsync()
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Page();
+        //    }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
 
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = userId, code = code },
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+        //    var userId = await _userManager.GetUserIdAsync(user);
+        //    var email = await _userManager.GetEmailAsync(user);
+        //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //    var callbackUrl = Url.Page(
+        //        "/Account/ConfirmEmail",
+        //        pageHandler: null,
+        //        values: new { userId = userId, code = code },
+        //        protocol: Request.Scheme);
+        //    await _emailSender.SendEmailAsync(
+        //        email,
+        //        "Confirm your email",
+        //        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
-            return RedirectToPage();
-        }
+        //    StatusMessage = "Verification email sent. Please check your email.";
+        //    return RedirectToPage();
+        //}
     }
 }

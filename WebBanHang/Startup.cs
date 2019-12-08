@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using WebBanHang.Models;
+using WebBanHang.Utility;
 
 namespace WebBanHang
 {
@@ -41,17 +42,20 @@ namespace WebBanHang
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 0;
 
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
 
-            })
-           .AddEntityFrameworkStores<ApplicationDbContext>()
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
            .AddDefaultUI()
            .AddDefaultTokenProviders();
+
+           
 
             services.AddMemoryCache();
             services.AddSession(options =>
@@ -67,7 +71,7 @@ namespace WebBanHang
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, UserManager<ApplicationUser> userManager)
         {
 
             if (env.IsDevelopment())
@@ -95,7 +99,8 @@ namespace WebBanHang
                   template: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
                 );
             });
-       //     app.UseIdentity();
+            ApplicationDbInitializer.SeedUsers(userManager);
+            //     app.UseIdentity();
         }
     }
 }

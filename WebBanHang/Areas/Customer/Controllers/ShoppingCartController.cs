@@ -56,7 +56,7 @@ namespace WebBanHang.Areas.Customer.Controllers
                     OrderDetails orderDetails = new OrderDetails()
                     {
                         ProductId = prodId,
-                        Product = _db.Products.FirstOrDefault(p=>p.Id == prodId),
+                        Product = _db.Products.Include(m=>m.Category).FirstOrDefault(p => p.Id == prodId),
                         OrderId = userOrdered.Id,
                         QuantityOrdered = 1
                     };
@@ -71,9 +71,7 @@ namespace WebBanHang.Areas.Customer.Controllers
         [Authorize]
         public IActionResult IndexPost()
         {
-
-
-            List<int> listShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+          List<int> listShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
             Order order = TempData.Get<Order>("Order");
             _db.Orders.Add(order);
             _db.SaveChanges();
@@ -100,10 +98,19 @@ namespace WebBanHang.Areas.Customer.Controllers
             listShoppingCart = new List<int>();
             HttpContext.Session.Set("ssShoppingCart", listShoppingCart);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
-
+        public IActionResult BuyConfirmation()
+        {
+            ShoppingCartViewModel shoppingCartVM = new ShoppingCartViewModel()
+            {
+                OrderDetails = _db.OrderDetails.Include(m=>m.Product).ToList(),
+                User = _db.ApplicationUsers.FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User))
+            };
+            return View(shoppingCartVM);
+        }
+        
         public IActionResult Remove(int id)
         {
             List<int> listShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
